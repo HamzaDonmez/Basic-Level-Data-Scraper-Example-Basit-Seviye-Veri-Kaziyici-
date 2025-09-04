@@ -1,7 +1,7 @@
 [OKU- READ ME.txt](https://github.com/user-attachments/files/22129074/OKU-.READ.ME.txt)
 
 Basic Web Scraping with Python and MySQL
-##Note: This was my first attempt at web scraping!
+####Note: This was my first attempt at web scraping!
 
 I built this project with Python to pull book data from the web. I learned how to get the titles and prices of books from a simple website and save them neatly in my MySQL database. At the end of the project, I even managed to export all the data into a file that can be opened in Excel. I think this is a great starter project to show what's possible with Python.
 
