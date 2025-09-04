@@ -1,5 +1,7 @@
 [OKU- READ ME.txt](https://github.com/user-attachments/files/22129074/OKU-.READ.ME.txt)
-Hey! This is My First Web Scraping Project!
+
+Basic Web Scraping with Python and MySQL
+##Note: This was my first attempt at web scraping!
 
 I built this project with Python to pull book data from the web. I learned how to get the titles and prices of books from a simple website and save them neatly in my MySQL database. At the end of the project, I even managed to export all the data into a file that can be opened in Excel. I think this is a great starter project to show what's possible with Python.
 
@@ -61,7 +63,7 @@ If you want to try this project on your own computer, here's what you'll need:
 
 Once the script is done, you can easily export the data to a CSV file using the **"Table Data Export Wizard"** in MySQL Workbench.
 
-###### Merhaba! Bu, İlk Web Kazıma Projem!
+#### **Türkçe:
 
 Bu projeyi, web'den kitap verilerini çekmek için Python'la hazırladım. Basit bir web sitesindeki kitapların başlıklarını ve fiyatlarını alıp, düzenli bir şekilde MySQL veritabanıma kaydettim. Projenin sonunda da tüm veriyi Excel'de açabileceğin bir dosyaya aktardım. Bence bu, Python'la neler yapılabileceğini gösteren harika bir başlangıç projesi.
 
