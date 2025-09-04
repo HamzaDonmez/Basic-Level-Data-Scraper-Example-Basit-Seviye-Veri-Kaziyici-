@@ -1,0 +1,67 @@
+import requests
+import mysql.connector
+from bs4 import BeautifulSoup
+
+
+#istek göndereceğimiz URL (adres)
+url = "http://books.toscrape.com/"
+
+#request.get() metodunu kullanarak siteye bir GET isteği gönderiyoruz.
+#Bu isteğin sonucunu 'response' adında bir değişkene kaydediyoruz.
+response = requests.get(url)
+
+#response.text ile sayfanın içeriğine ulaşıyoruz
+sayfa_icerigi = response.text
+
+#prin() komutunu kullanarak bu içeriği ekrana yazdırıyoruz
+print(sayfa_icerigi)
+
+# 'sayfa_icerigi' değişkenindeki HTML'i Beautiful Soup ile işlenebilir hale getiriyoruz.
+soup = BeautifulSoup(sayfa_icerigi, 'html.parser')
+
+kitap_basliklari = soup.find_all('h3')
+#tüm <h3> başlık etiketlerinin içindeki başlıkları liste halinde bulur. .Find_all Kodu sayesinde tüm başlıkları bulur. Eğer sadece .find  kullanılırsa, ilk başlığı bulur.
+
+print(kitap_basliklari) #<h3> başlıklarını yazar
+
+#şimdi bir döngü oluşturup h3 etiketinin içinden sadece metin kısımlarını alalaım.
+for kitap_basligi in kitap_basliklari:
+    #her etiketin içindeki metin kısmını .text ile alıp ekrana yazdıralım.
+    print(kitap_basligi.text)
+    
+#fiyat etiketlerini bulmak için find_all'u kullanıyoruz.
+#Bu sefer hem etiketin ('p) hem de sınıfın ('price_color') belitriyoruz
+kitap_fiyatlari = soup.find_all ('p', class_='price_color')
+
+#bir döngü daha yaptıktan sonra print koduyla ekrana yazdırıyoruz
+for fiyat in kitap_fiyatlari:
+    print(fiyat.text)
+    
+#şimdi her iki listeyi de zipliyoruz.
+for baslik, fiyat in zip(kitap_basliklari, kitap_fiyatlari):
+    print(baslik.text+ "-" + fiyat.text)
+    
+#MySQL veritabanı bağlantı için
+db_connection = mysql.connector.connect(
+ host="localhost",
+ user="root",
+ password="#şifreniz", 
+ database="deneme_db"
+)
+
+#imleç oluşturma, veri ekleme, gücelleme veya silme gibi komutları göndermemizi sağlar.
+
+cursor = db_connection.cursor()
+for baslik, fiyat in zip(kitap_basliklari, kitap_fiyatlari):
+    sql_command = "INSERT INTO kitaplar (baslik, fiyat) VALUES (%s, %s)"
+    degerler = (baslik.text, fiyat.text)
+    cursor.execute(sql_command, degerler)
+
+#sql_command: Bu, verileri tabloya ekleyecek SQL komutudur. %s işaretleri, Python'dan gelecek veriler için birer yer tutucudur. Bu, SQL Injection gibi güvenlik açıklarını önlemeye yardımcı olur.
+#degerler: Bu, SQL komutundaki %s'lerin yerini alacak olan verilerdir.
+
+#bir değişiklikten sonra bu değişikliği kalıcı hale getirmek için commit() komutunu çağırırız.
+db_connection.commit()
+#değişiklikleri veritabanına kaydettikten sonra bağlantıyı kapatıyoruz
+cursor.close()
+db_connection.close()
